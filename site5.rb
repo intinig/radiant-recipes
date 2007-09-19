@@ -5,9 +5,6 @@ set :group_writable, false
 # Less releases, less space wasted
 set :keep_releases, 2
 
-# This is related to site5 too.
-set :deploy_to, "/home/#{user}/apps/#{application}"
-
 namespace :deploy do
   after "deploy:update", "deploy:site5:link_public_html"
     
