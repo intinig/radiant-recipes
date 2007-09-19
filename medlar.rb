@@ -1,9 +1,6 @@
 # Keep it _FAST_
 set :deploy_via, :remote_cache
 
-# Default medlar repository
-set :repository,  "https://svn1.hosted-projects.com/medlar/#{application}/trunk"
-
 # SCM information
 set :scm_username, "intinig"
 set :scm_password, Proc.new { CLI.password_prompt "SVN Password: "}
