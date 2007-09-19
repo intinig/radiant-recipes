@@ -27,7 +27,7 @@ namespace :deploy do
       Kills Ruby instances on Site5
     DESC
     task :kill_dispatch_fcgi do
-      run "skill -u #{user} -c ruby"
+      run "skill -u #{user} -c dispatch.fcgi"
     end
   end
 end
