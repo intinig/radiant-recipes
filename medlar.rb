@@ -12,8 +12,11 @@ namespace :deploy do
   after "deploy:update", "deploy:medlar:rails:link"
   
   namespace :medlar do
+    
     namespace :rails do
+
       namespace :freeze do
+
         desc "Fetch Rails stable and puts it into shared."
         task :stable do
           run "cd #{shared_path}; rm -rf rails; svn co http://svn.rubyonrails.org/rails/branches/1-2-stable rails"
@@ -23,17 +26,21 @@ namespace :deploy do
         task :edge do
           run "cd #{shared_path}; rm -rf rails; svn co http://svn.rubyonrails.org/rails/trunk rails"
         end
+
       end
+      
+      desc "Updates the fetched version of rails."
+      task :update do
+        run "cd #{shared_path}/rails; svn up"
+      end
+
+      desc "Links Rails to application/vendor"
+      task :link do
+        run "cd #{current_path}/vendor; rm -rf rails; ln -s #{shared_path}/rails ./rails"
+      end
+
     end
     
-    desc "Updates the fetched version of rails."
-    task :update do
-      run "cd #{shared_path}/rails; svn up"
-    end
-    
-    desc "Links Rails to application/vendor"
-    task :link do
-      run "cd #{current_path}/vendor; rm -rf rails; ln -s #{shared_path}/rails ./rails"
-    end
   end
+
 end
