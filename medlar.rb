@@ -2,7 +2,7 @@
 set :deploy_via, :remote_cache
 
 # SCM information
-set :scm_username, "intinig"
+set :scm_username, ENV['SCM_USERNAME'] || "intinig"
 set :scm_password, Proc.new { CLI.password_prompt "SVN Password: "}
 
 set :rails_version, "stable" # use "edge" if you like bleeding edge
