@@ -8,14 +8,14 @@ set :scm_password, Proc.new { CLI.password_prompt "SVN Password: "}
 set :rails_version, "stable" # use "edge" if you like bleeding edge
 
 namespace :deploy do
-  after "deploy:setup", "deploy:medlar:rails:freeze:#{rails_version}"
+  after "deploy:setup", "deploy:medlar:rails:freezer:#{rails_version}"
   after "deploy:update", "deploy:medlar:rails:link"
   
   namespace :medlar do
     
     namespace :rails do
 
-      namespace :freeze do
+      namespace :freezer do
 
         desc "Fetch Rails stable and puts it into shared."
         task :stable do
