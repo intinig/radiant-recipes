@@ -5,23 +5,34 @@ set :deploy_via, :remote_cache
 set :scm_username, "intinig"
 set :scm_password, Proc.new { CLI.password_prompt "SVN Password: "}
 
+set :rails_version, "stable" # use "edge" if you like bleeding edge
+
 namespace :deploy do
-  after "deploy:setup", "deploy:medlar:freeze_rails"
-  after "deploy:update", "deploy:medlar:link_rails"
+  after "deploy:setup", "deploy:medlar:rails:freeze:#{rails_version}"
+  after "deploy:update", "deploy:medlar:rails:link"
   
   namespace :medlar do
-    desc "Fetch Rails1.2 stable and puts it into shared."
-    task :freeze_rails do
-      run "cd #{shared_path}; rm -rf rails; svn co http://svn.rubyonrails.org/rails/branches/1-2-stable rails"
+    namespace :rails do
+      namespace :freeze do
+        desc "Fetch Rails stable and puts it into shared."
+        task :stable do
+          run "cd #{shared_path}; rm -rf rails; svn co http://svn.rubyonrails.org/rails/branches/1-2-stable rails"
+        end
+
+        desc "Fetch Rails edge and puts it into shared."
+        task :edge do
+          run "cd #{shared_path}; rm -rf rails; svn co http://svn.rubyonrails.org/rails/trunk rails"
+        end
+      end
     end
     
-    desc "Updates Rails1.2 stable to latest version."
-    task :update_rails do
+    desc "Updates the fetched version of rails."
+    task :update do
       run "cd #{shared_path}/rails; svn up"
     end
     
-    desc "Links Rails1.2 to application."
-    task :link_rails do
+    desc "Links Rails to application/vendor"
+    task :link do
       run "cd #{current_path}/vendor; rm -rf rails; ln -s #{shared_path}/rails ./rails"
     end
   end
