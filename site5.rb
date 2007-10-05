@@ -6,7 +6,12 @@ set :group_writable, false
 set :keep_releases, 2
 
 namespace :deploy do
-  after "deploy:update", "deploy:site5:link_public_html"
+  desc "Overridden deploy:cold for radiant"
+  task :cold do
+    update
+    bootstrap
+    start
+  end
     
   desc <<-DESC
     Site5 version of restart task.
