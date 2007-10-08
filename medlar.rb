@@ -9,7 +9,7 @@ set :rails_version, "stable" # use "edge" if you like bleeding edge
 
 namespace :deploy do
   after "deploy:setup", "deploy:medlar:rails:freezer:#{rails_version}"
-  after "deploy:update", "deploy:medlar:rails:link"
+  after "deploy:update_code", "deploy:medlar:rails:link"
   
   namespace :medlar do
     
