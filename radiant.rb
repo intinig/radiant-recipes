@@ -1,6 +1,6 @@
 namespace :deploy do
   after "deploy:cold", "deploy:radiant:bootstrap"
-  
+  after "deploy:migrate", "deploy:radiant:migrate:extensions"
   desc "Overridden deploy:cold for Radiant."
   task :cold do
     update
