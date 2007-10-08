@@ -18,13 +18,14 @@ namespace :deploy do
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} ADMIN_NAME=Administrator ADMIN_USERNAME=admin ADMIN_PASSWORD=radiant DATABASE_TEMPLATE=empty.yml OVERWRITE=true db:bootstrap"
     end
 
-  namespace :migrate do
-    desc "Runs migrations on extensions."
-    task :extensions do
-      rake = fetch(:rake, "rake")
-      rails_env = fetch(:rails_env, "production")
+    namespace :migrate do
+      desc "Runs migrations on extensions."
+      task :extensions do
+        rake = fetch(:rake, "rake")
+        rails_env = fetch(:rails_env, "production")
         run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} db:migrate:extensions"
       end
     end  
+    
   end
 end
