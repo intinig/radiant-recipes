@@ -6,7 +6,7 @@ set :group_writable, false
 set :keep_releases, 2
 
 namespace :deploy do
-  after "deploy:update", "deploy:site5:link_public_html"
+  after "deploy:update", "deploy:site5:link_public_html", "deploy:site5:fix_permissions"
     
   desc <<-DESC
     Site5 version of restart task.
@@ -28,6 +28,11 @@ namespace :deploy do
     DESC
     task :kill_dispatch_fcgi do
       run "skill -u #{user} -c dispatch.fcgi"
+    end
+    
+    desc "Fix g-w issues with Site5"
+    task :fix_permissions do
+      run "cd #{current_path}; chmod -R g-w *"
     end
   end
 end
